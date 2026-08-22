@@ -16,15 +16,18 @@
     "@google/genai": "^2.8.0",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.2",
+    "bullmq": "^6.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "express-rate-limit": "^8.6.2",
+    "ioredis": "^6.0.0",
     "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.5",
     "qrcode": "^1.5.4",
+    "redis": "^6.2.1",
     "socket.io": "^4.8.3",
     "uuid": "^14.0.2"
   }

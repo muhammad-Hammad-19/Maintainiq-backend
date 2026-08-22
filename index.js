@@ -7,6 +7,7 @@ import authRouter from "./routes/authRoutes.js";
 import cookieParser from "cookie-parser";
 import { createServer } from "node:http";
 import reportRoutes from "./routes/reportRoutes.js";
+import connection from "./config/radis.js";
 
 dotenv.config();
 
