@@ -1,0 +1,9 @@
+node_modules/
+.env
+.env.local
+.env.production
+vendor/
+__pycache__/
+*.log
+dist/
+build/
