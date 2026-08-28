@@ -1,6 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config();
 import assetRoutes from "./routes/assetRoutes.js";
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./db/db.js";
 import authRouter from "./routes/authRoutes.js";
@@ -8,8 +9,9 @@ import cookieParser from "cookie-parser";
 import { createServer } from "node:http";
 import reportRoutes from "./routes/reportRoutes.js";
 import connection from "./config/radis.js";
+import { initSocketServer } from "./socket/socket.server.js";
 
-dotenv.config();
+import workOrderRoutes from "./routes/workOrderRoutes.js";
 
 const app = express();
 const server = createServer(app);
@@ -24,11 +26,13 @@ app.use(
     credentials: true,
   }),
 );
-
 app.use(express.json());
+
+initSocketServer(server);
 
 app.use("/api/reports", reportRoutes);
 app.use("/api/auth", authRouter);
+app.use("/api/workorders", workOrderRoutes);
 app.use("/api/assets", assetRoutes);
 
 connectDB();
