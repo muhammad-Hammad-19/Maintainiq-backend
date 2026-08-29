@@ -10,7 +10,7 @@ import { createServer } from "node:http";
 import reportRoutes from "./routes/reportRoutes.js";
 import connection from "./config/radis.js";
 import { initSocketServer } from "./socket/socket.server.js";
-
+import "./workers/notification.worker.js";
 import workOrderRoutes from "./routes/workOrderRoutes.js";
 
 const app = express();
