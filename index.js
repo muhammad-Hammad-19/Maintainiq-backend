@@ -27,7 +27,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      process.env.FRONTEND_URL, 
+      process.env.FRONTEND_URL || "https://maintainiq-fontend.vercel.app",
     ],
     credentials: true,
   }),
