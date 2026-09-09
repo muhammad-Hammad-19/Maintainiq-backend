@@ -8,13 +8,13 @@ let io;
 export const initSocketServer = (httpServer) => {
   io = new Server(httpServer, {
     cors: {
-      origin: process.env.FRONTEND_URL,
+      origin: process.env.FRONTEND_URL || "http://localhost:3000",
       credentials: true,
     },
   });
 
   // ⚠️ Middleware — har connection JWT verify hoga (before allowing connect)
-  
+
   io.use((socket, next) => {
     try {
       const token =
@@ -57,6 +57,7 @@ export const initSocketServer = (httpServer) => {
 };
 
 // Kisi bhi file se io instance access karne ke liye
+
 export const getIO = () => {
   if (!io) {
     throw new Error("Socket.io not initialized yet");

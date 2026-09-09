@@ -1,10 +1,37 @@
 // controllers/workOrder.controller.js
 
 import { getMyJobsService } from "../services/workOrder.service.js";
-import {
-  updateWorkOrderStatusService,
-} from "../services/workOrder.service.js";
+import { updateWorkOrderStatusService } from "../services/workOrder.service.js";
 import WorkOrder from "../models/workOrder.model.js";
+// controllers/user.controller.js
+import { getTechniciansService } from "../services/workOrder.service.js";
+import mongoose from "mongoose";
+import User from "../models/user.model.js";
+import { getIO } from "../socket/socket.server.js";
+
+export const getTechnicians = async (req, res) => {
+  try {
+    const result = await getTechniciansService();
+
+    if (!result.success) {
+      return res.status(400).json({
+        success: result.success,
+        message: result.message,
+      });
+    }
+
+    return res.status(200).json({
+      success: result.success,
+      message: result.message,
+      data: result.data,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 export const getOpenWorkOrders = async (req, res) => {
   try {
@@ -32,6 +59,7 @@ export const assignWorkOrder = async (req, res) => {
   try {
     const { id } = req.params;
     const { technicianId } = req.body;
+    console.log(id, "id", technicianId, "technicianId");
 
     // 1. Basic validation
     if (!technicianId) {
@@ -88,6 +116,7 @@ export const assignWorkOrder = async (req, res) => {
     }
 
     // 4. Emit real-time event to the assigned technician's room
+
     try {
       const io = getIO();
       io.to(`technician:${technicianId}`).emit(
@@ -114,7 +143,6 @@ export const assignWorkOrder = async (req, res) => {
 };
 
 // controllers/workOrder.controller.js
-
 
 export const getMyJobs = async (req, res) => {
   try {

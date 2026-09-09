@@ -1,4 +1,4 @@
-// services/aiProvider.service.js
+// services/aiProviderService.js
 
 import ai from "../lib/gemini.js";
 
@@ -33,8 +33,15 @@ Return JSON in EXACTLY this structure:
 }
 `;
 
-    const result = await ai.generateContent(prompt);
-    const responseText = result.response.text();
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+      },
+    });
+
+    const responseText = response.text;
 
     let parsed;
     try {
@@ -43,7 +50,6 @@ Return JSON in EXACTLY this structure:
       throw new Error("AI returned invalid JSON format");
     }
 
-    // Fallback/safety defaults — agar AI koi field miss kar de
     return {
       category: ALLOWED_CATEGORIES.includes(parsed.category)
         ? parsed.category
@@ -58,7 +64,6 @@ Return JSON in EXACTLY this structure:
       suggestedCause: parsed.suggestedCause || "Cause could not be determined.",
     };
   } catch (error) {
-    // Agar AI call hi fail ho jaye, error throw karo — BullMQ retry karega
     throw new Error(`AI classification failed: ${error.message}`);
   }
 };

@@ -7,15 +7,18 @@ import {
   getOpenWorkOrders,
   assignWorkOrder,
   getMyJobs,
+  getTechnicians,
   updateWorkOrderStatus,
 } from "../controllers/workOrder.controller.js";
 
 const router = express.Router();
 
 // Admin only — list work orders (default: OPEN, filterable via ?status=)
+
 router.get("/", authMiddleware, requireRole("ADMIN"), getOpenWorkOrders);
 
 // Admin only — assign technician to a work order
+
 router.patch(
   "/:id/assign",
   authMiddleware,
@@ -24,6 +27,14 @@ router.patch(
 );
 
 router.get("/my-jobs", authMiddleware, requireRole("TECHNICIAN"), getMyJobs);
+
+router.get(
+  "/technicians",
+  authMiddleware,
+  requireRole("ADMIN"),
+  getTechnicians,
+);
+
 router.patch(
   "/:id/status",
   authMiddleware,

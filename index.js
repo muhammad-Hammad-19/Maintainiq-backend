@@ -9,8 +9,11 @@ import cookieParser from "cookie-parser";
 import { createServer } from "node:http";
 import reportRoutes from "./routes/reportRoutes.js";
 import connection from "./config/radis.js";
+import "./queues/aiClassification.queue.js";
+import "./queues/notification.queue.js";
 import { initSocketServer } from "./socket/socket.server.js";
 import "./workers/notification.worker.js";
+import "./workers/aiClassification.worker.js";
 import workOrderRoutes from "./routes/workOrderRoutes.js";
 
 const app = express();
@@ -40,6 +43,9 @@ connectDB();
 app.get("/", (req, res) => {
   res.send("Backend is running...");
 });
+
+console.log("✅ AI Worker file loaded");
+console.log("✅ Notivication Working ");
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

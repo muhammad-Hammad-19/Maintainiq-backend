@@ -17,6 +17,7 @@ const notificationWorker = new Worker(
 
     return result;
   },
+  
   {
     connection,
     concurrency: 5,
